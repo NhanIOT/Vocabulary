@@ -1860,19 +1860,510 @@
         fill: none;
         stroke-width: 3;
       }
-      /* RESPONSIVE */
+      /* ════════════════════════════════════════════════
+         RESPONSIVE — MOBILE FIRST
+         ════════════════════════════════════════════════ */
+
+      /* Hamburger button (hidden on desktop) */
+      .mob-menu-btn {
+        display: none;
+        width: 38px;
+        height: 38px;
+        border-radius: 9px;
+        background: var(--wh);
+        border: 1px solid var(--s200);
+        cursor: pointer;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 4px;
+        flex-shrink: 0;
+        transition: all 0.15s;
+      }
+      .mob-menu-btn span {
+        display: block;
+        width: 16px;
+        height: 2px;
+        background: var(--s600);
+        border-radius: 2px;
+        transition: all 0.25s;
+      }
+      .mob-menu-btn:hover {
+        border-color: var(--b400);
+      }
+
+      /* Sidebar overlay */
+      .sb-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.45);
+        backdrop-filter: blur(3px);
+        z-index: 190;
+      }
+      .sb-overlay.show {
+        display: block;
+        animation: mof 0.2s ease;
+      }
+
+      /* Bottom navigation (mobile only) */
+      .bottom-nav {
+        display: none;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 62px;
+        background: var(--b900);
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        z-index: 200;
+        padding: 0 4px;
+        align-items: stretch;
+        box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.2);
+      }
+      .bn-item {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 3px;
+        border: none;
+        background: transparent;
+        cursor: pointer;
+        padding: 6px 2px 8px;
+        border-radius: 10px;
+        transition: all 0.15s;
+        color: rgba(255, 255, 255, 0.5);
+        font-family: var(--fb);
+        min-width: 0;
+      }
+      .bn-item .bn-ic {
+        font-size: 1.3rem;
+        line-height: 1;
+        transition: transform 0.15s;
+      }
+      .bn-item .bn-lb {
+        font-size: 0.55rem;
+        font-weight: 600;
+        letter-spacing: 0.01em;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 100%;
+      }
+      .bn-item.active {
+        color: var(--b300);
+        background: rgba(96, 165, 250, 0.15);
+      }
+      .bn-item.active .bn-ic {
+        transform: translateY(-2px);
+      }
+      .bn-item:active {
+        transform: scale(0.93);
+      }
+
+      /* ── Tablet (≤1024px) ── */
+      @media (max-width: 1024px) {
+        :root {
+          --sw: 230px;
+        }
+        main {
+          padding: 20px 20px;
+        }
+        .hg {
+          font-size: 1.35rem !important;
+        }
+        .tgrid {
+          grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        }
+      }
+
+      /* ── Mobile (≤768px) ── */
       @media (max-width: 768px) {
+        :root {
+          --sw: 268px;
+        }
+
+        /* Sidebar: slide in from left over content */
         .sidebar {
           transform: translateX(-100%);
+          transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+          z-index: 200;
+          box-shadow: none;
         }
+        .sidebar.open {
+          transform: translateX(0);
+          box-shadow: 6px 0 32px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Layout: full width, bottom padding for bottom nav */
         .layout {
           margin-left: 0;
+          padding-bottom: 62px;
         }
+
+        /* Topbar */
+        .topbar {
+          padding: 0 14px;
+          height: 54px;
+        }
+        .tb-acts {
+          gap: 5px;
+        }
+        .dpill {
+          display: none;
+        } /* hide daily pill — too cramped */
+        .btn.tb-desktop {
+          display: none;
+        } /* hide desktop-only topbar buttons */
+
+        /* Show hamburger */
+        .mob-menu-btn {
+          display: flex;
+        }
+
+        /* Main content */
+        main {
+          padding: 14px 14px 10px;
+          max-width: 100%;
+        }
+
+        /* Page headers */
+        .ph h1 {
+          font-size: 1.25rem;
+        }
+        .ph p {
+          font-size: 0.82rem;
+        }
+        .ph {
+          margin-bottom: 14px;
+        }
+
+        /* Hero banner */
+        .hero {
+          padding: 18px 18px;
+          border-radius: 14px;
+          margin-bottom: 14px;
+        }
+        .hg {
+          font-size: 1.2rem !important;
+        }
+        .hs {
+          font-size: 0.82rem;
+          margin-bottom: 14px;
+        }
+        .hstats {
+          gap: 8px;
+        }
+        .hstat {
+          padding: 9px 12px;
+          min-width: 70px;
+        }
+        .hsv {
+          font-size: 1.4rem !important;
+        }
+        .hsl {
+          font-size: 0.62rem;
+        }
+
+        /* Stat grid: 2 columns */
+        .sgrid {
+          grid-template-columns: 1fr 1fr;
+          gap: 9px;
+        }
+        .sc {
+          padding: 13px 14px;
+        }
+        .scv {
+          font-size: 1.35rem;
+        }
+
+        /* Two-col → one col */
         .two {
           grid-template-columns: 1fr;
+          gap: 12px;
+          margin-bottom: 14px;
         }
+
+        /* Topic grid */
+        .tgrid {
+          grid-template-columns: 1fr;
+          gap: 11px;
+        }
+
+        /* Quick start grid: 3 cols */
+        .qgrid {
+          grid-template-columns: repeat(3, 1fr);
+          gap: 8px;
+          margin-bottom: 16px;
+        }
+        .qc {
+          padding: 12px 10px;
+          gap: 6px;
+          border-radius: 11px;
+        }
+        .qci {
+          width: 36px;
+          height: 36px;
+          font-size: 1rem;
+        }
+        .qct {
+          font-size: 0.75rem;
+        }
+        .qcs {
+          font-size: 0.65rem;
+        }
+
+        /* Form rows: single col */
         .frow {
           grid-template-columns: 1fr;
+          gap: 8px;
+        }
+
+        /* Flashcard */
+        .fc {
+          height: 210px;
+        }
+        .fcw {
+          font-size: 1.55rem !important;
+        }
+        .fcnav {
+          gap: 7px;
+        }
+
+        /* Word list items */
+        .witem {
+          padding: 11px 12px;
+          gap: 9px;
+        }
+        .wdef {
+          font-size: 0.8rem;
+          padding-left: 6px;
+        }
+        .wword {
+          font-size: 0.9rem;
+        }
+
+        /* Cards */
+        .card {
+          padding: 16px 14px;
+        }
+
+        /* Tabs: scrollable row */
+        .tabs {
+          display: flex;
+          flex-wrap: nowrap;
+          overflow-x: auto;
+          gap: 5px;
+          padding-bottom: 4px;
+          -webkit-overflow-scrolling: touch;
+          scrollbar-width: none;
+        }
+        .tabs::-webkit-scrollbar {
+          display: none;
+        }
+        .tab {
+          white-space: nowrap;
+          padding: 6px 13px;
+          font-size: 0.78rem;
+        }
+
+        /* Buttons: slightly taller for touch */
+        .btn {
+          height: 38px;
+          padding: 0 12px;
+        }
+        .tbtn {
+          height: 36px;
+        }
+
+        /* Topic card actions */
+        .tacts {
+          gap: 5px;
+        }
+        .tbtn {
+          font-size: 0.73rem;
+        }
+
+        /* Modal: near-fullscreen */
+        .md {
+          padding: 20px 16px;
+          border-radius: 18px 18px 0 0;
+          max-width: 100% !important;
+          max-height: 92vh;
+          width: 100%;
+          margin-top: auto;
+        }
+        .mo {
+          align-items: flex-end;
+          padding: 0;
+        }
+        .md-title {
+          font-size: 1.1rem;
+        }
+
+        /* Detail header */
+        .dhdr {
+          padding: 15px 14px;
+        }
+        .dhdr-top {
+          gap: 10px;
+        }
+        .dhdr h2 {
+          font-size: 1.1rem;
+        }
+        .dhdr-acts {
+          gap: 5px;
+        }
+        .dstats {
+          gap: 12px;
+        }
+        .dsv {
+          font-size: 1.1rem;
+        }
+        .dhdr-acts .btn {
+          font-size: 0.75rem;
+          padding: 0 10px;
+        }
+
+        /* Progress section */
+        .prog-summary {
+          grid-template-columns: 1fr 1fr;
+          gap: 8px;
+        }
+
+        /* Learn modes grid */
+        .lmgrid {
+          grid-template-columns: 1fr 1fr;
+          gap: 9px;
+        }
+        .lmcard {
+          padding: 14px;
+        }
+        .lmi {
+          font-size: 1.5rem;
+          margin-bottom: 6px;
+        }
+        .lmt {
+          font-size: 0.85rem;
+        }
+        .lmd {
+          font-size: 0.72rem;
+        }
+
+        /* IELTS tabs */
+        #ielts-skill-tabs {
+          flex-wrap: nowrap !important;
+          overflow-x: auto;
+          padding-bottom: 4px;
+          -webkit-overflow-scrolling: touch;
+          scrollbar-width: none;
+        }
+        #ielts-skill-tabs::-webkit-scrollbar {
+          display: none;
+        }
+        .ielts-stab {
+          white-space: nowrap;
+        }
+
+        /* Topbar action buttons: icon-only labels on mobile */
+        .tb-label {
+          display: none;
+        }
+
+        /* XP bar in sidebar */
+        .sb-xp {
+          margin: 10px 12px 0;
+          padding: 10px 13px;
+        }
+
+        /* Heatmap: reduce cell size */
+        .hm-cell {
+          width: 28px;
+          height: 28px;
+          font-size: 0.62rem;
+        }
+
+        /* Week strip smaller */
+        #week-strip > div > div:nth-child(2) {
+          width: 36px !important;
+          height: 36px !important;
+        }
+
+        /* Show bottom nav */
+        .bottom-nav {
+          display: flex;
+        }
+
+        /* Back button */
+        .back {
+          font-size: 0.8rem;
+          margin-bottom: 12px;
+        }
+
+        /* Search bar */
+        .searchbar input {
+          width: 140px;
+        }
+        .thdr {
+          gap: 8px;
+        }
+        .thdr > div {
+          gap: 5px;
+        }
+
+        /* Settings rows */
+        .strow {
+          flex-wrap: wrap;
+          gap: 8px;
+        }
+
+        /* Score display */
+        .rsc {
+          font-size: 2.5rem;
+        }
+
+        /* Speed round input */
+        #speed-inp {
+          font-size: 1.1rem;
+        }
+      }
+
+      /* ── Small mobile (≤420px) ── */
+      @media (max-width: 420px) {
+        main {
+          padding: 12px 11px 8px;
+        }
+        .qgrid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .sgrid {
+          grid-template-columns: 1fr 1fr;
+          gap: 7px;
+        }
+        .hstat {
+          padding: 8px 9px;
+          min-width: 0;
+        }
+        .hsv {
+          font-size: 1.25rem !important;
+        }
+        .lmgrid {
+          grid-template-columns: 1fr;
+        }
+        .tacts {
+          flex-wrap: wrap;
+        }
+        .wicon {
+          width: 28px;
+          height: 28px;
+        }
+        .dhdr-acts .btn:nth-child(n + 3) {
+          display: none;
+        } /* hide less-used detail btns */
+        .fc {
+          height: 190px;
         }
       }
       ::-webkit-scrollbar {
@@ -7321,7 +7812,7 @@ Leverage		Đòn bẩy; tận dụng lợi thế</pre
       <div><div class="rbv" style="color:var(--ok)">${score}</div><div class="rbl">Đúng</div></div>
       <div><div class="rbv" style="color:var(--err)">${qs.length - score}</div><div class="rbl">Sai</div></div>
     </div>
-    <button class="btn p" style="margin:0 auto" onclick="initScramble('${scrambleSt.key || currentTopic}','${cid}')">Làm lại</button>
+    <button class="btn p" style="margin:0 auto" onclick="initScramble('${scrambleSt.key || currentTopic}','${cid}')">🔄 Làm lại</button>
   </div></div>`;
       }
 
@@ -7561,8 +8052,8 @@ Leverage		Đòn bẩy; tận dụng lợi thế</pre
         const prov = document.getElementById("settings-ai-provider");
         if (el)
           el.textContent = ieltsApiKey
-            ? `Đã cài đặt (${ieltsProvider === "claude" ? "Claude" : "OpenAI"})`
-            : "Chưa cài đặt — IELTS Lab dùng bài mẫu";
+            ? `✅ Đã cài đặt (${ieltsProvider === "claude" ? "Claude" : "OpenAI"})`
+            : "⚠️ Chưa cài đặt — IELTS Lab dùng bài mẫu";
         if (prov) prov.value = ieltsProvider || "claude";
       }
 
