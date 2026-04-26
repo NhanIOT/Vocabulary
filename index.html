@@ -2147,6 +2147,171 @@
         height: 8px;
         background: var(--s300);
       }
+      /* ── STUDY HEATMAP ── */
+      .heatmap-wrap {
+        overflow-x: auto;
+        padding-bottom: 4px;
+      }
+      .heatmap {
+        display: flex;
+        gap: 6px;
+        min-width: max-content;
+      }
+      .hm-day {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+      }
+      .hm-cell {
+        width: 36px;
+        height: 36px;
+        border-radius: 8px;
+        background: var(--s100);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.7rem;
+        font-weight: 700;
+        color: var(--s300);
+        cursor: default;
+        transition: all 0.15s;
+        position: relative;
+      }
+      .hm-cell:hover {
+        transform: scale(1.15);
+        z-index: 2;
+      }
+      .hm-cell.lvl1 {
+        background: var(--b100);
+        color: var(--b500);
+      }
+      .hm-cell.lvl2 {
+        background: var(--b200);
+        color: var(--b600);
+      }
+      .hm-cell.lvl3 {
+        background: var(--b400);
+        color: var(--wh);
+      }
+      .hm-cell.lvl4 {
+        background: var(--b600);
+        color: var(--wh);
+      }
+      .hm-cell.today {
+        outline: 2px solid var(--b500);
+        outline-offset: 2px;
+      }
+      .hm-lbl {
+        font-size: 0.6rem;
+        color: var(--s400);
+        font-weight: 700;
+        text-align: center;
+        line-height: 1.2;
+      }
+      /* ── STAT RING ── */
+      .stat-donut {
+        position: relative;
+        width: 90px;
+        height: 90px;
+        flex-shrink: 0;
+      }
+      .stat-donut svg {
+        transform: rotate(-90deg);
+      }
+      .stat-donut .sd-label {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        line-height: 1.2;
+      }
+      .sd-val {
+        font-family: var(--fd);
+        font-weight: 800;
+        font-size: 1.3rem;
+        color: var(--b600);
+      }
+      .sd-sub {
+        font-size: 0.58rem;
+        color: var(--s400);
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+      /* ── DAILY STUDY GRID ── */
+      .study-days-grid {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 4px;
+        margin-top: 10px;
+      }
+      .sday-cell {
+        aspect-ratio: 1;
+        border-radius: 5px;
+        background: var(--s100);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.6rem;
+        font-weight: 700;
+        color: var(--s300);
+        cursor: default;
+      }
+      .sday-cell.has {
+        background: var(--b500);
+        color: var(--wh);
+      }
+      .sday-cell.today-cell {
+        outline: 2px solid var(--warn);
+        outline-offset: 1px;
+      }
+      /* ── PROGRESS ENHANCEMENTS ── */
+      .prog-summary {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 11px;
+        margin-bottom: 20px;
+      }
+      .psc {
+        background: var(--wh);
+        border: 1px solid var(--s200);
+        border-radius: 12px;
+        padding: 14px 16px;
+        box-shadow: var(--sh);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .psc-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.1rem;
+        flex-shrink: 0;
+      }
+      .psc-val {
+        font-family: var(--fd);
+        font-weight: 800;
+        font-size: 1.4rem;
+        color: var(--s900);
+        line-height: 1;
+      }
+      .psc-lbl {
+        font-size: 0.72rem;
+        color: var(--s500);
+        margin-top: 2px;
+      }
+      .psc-sub {
+        font-size: 0.65rem;
+        color: var(--s400);
+        margin-top: 1px;
+      }
     </style>
   </head>
   <body>
@@ -2260,7 +2425,7 @@
                   <div class="hsl">Tỉ lệ thuộc</div>
                 </div>
                 <div class="hstat">
-                  <div class="hsv c3">14</div>
+                  <div class="hsv c3" id="h-streak">0</div>
                   <div class="hsl">Ngày liên tiếp</div>
                 </div>
                 <div class="hstat">
@@ -3000,30 +3165,83 @@
             <h1>📊 Tiến độ học tập</h1>
             <p>Theo dõi hành trình chinh phục từ vựng của bạn</p>
           </div>
+
+          <!-- Weekly mini calendar strip -->
+          <div class="card" style="margin-bottom: 18px; padding: 18px 20px">
+            <div
+              style="
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                flex-wrap: wrap;
+                gap: 10px;
+                margin-bottom: 14px;
+              "
+            >
+              <div class="ctitle" style="margin-bottom: 0">
+                <span class="cti">🗓️</span>Lịch học tuần này
+              </div>
+              <div
+                style="
+                  display: flex;
+                  gap: 16px;
+                  font-size: 0.8rem;
+                  flex-wrap: wrap;
+                "
+              >
+                <span style="color: var(--s500)"
+                  >Streak:
+                  <strong style="color: #f59e0b" id="pg-streak-inline"
+                    >0</strong
+                  >
+                  ngày 🔥</span
+                >
+                <span style="color: var(--s500)"
+                  >Kỷ lục:
+                  <strong style="color: #7c3aed" id="pg-record-inline"
+                    >0</strong
+                  >
+                  ngày 🏆</span
+                >
+                <span style="color: var(--s500)"
+                  >Tổng ngày:
+                  <strong style="color: var(--ok)" id="pg-days-inline"
+                    >0</strong
+                  >
+                  📅</span
+                >
+              </div>
+            </div>
+            <div
+              id="week-strip"
+              style="display: flex; gap: 6px; justify-content: space-around"
+            ></div>
+          </div>
+
           <div class="sgrid" style="margin-bottom: 22px">
             <div class="sc">
               <div class="sct">
                 <div class="sci ib">🗓️</div>
                 <div class="scl">Ngày liên tiếp</div>
               </div>
-              <div class="scv">14</div>
-              <div class="scs">Kỷ lục: 21 ngày</div>
+              <div class="scv" id="pg-streak">0</div>
+              <div class="scs" id="pg-record">Kỷ lục: 0 ngày</div>
+            </div>
+            <div class="sc">
+              <div class="sct">
+                <div class="sci" style="background: #f0fdf4">📅</div>
+                <div class="scl">Tổng ngày đã học</div>
+              </div>
+              <div class="scv" id="pg-total-days">0</div>
+              <div class="scs" id="pg-first-day">Ngày đầu tiên: —</div>
             </div>
             <div class="sc">
               <div class="sct">
                 <div class="sci ig">⏱️</div>
-                <div class="scl">Tổng thời gian</div>
+                <div class="scl">Tuần này</div>
               </div>
-              <div class="scv">48h</div>
-              <div class="scs">TB 45 phút/ngày</div>
-            </div>
-            <div class="sc">
-              <div class="sct">
-                <div class="sci ia">🏆</div>
-                <div class="scl">Điểm XP</div>
-              </div>
-              <div class="scv">1,240</div>
-              <div class="scs">Top 5% người dùng</div>
+              <div class="scv" id="pg-week-days">0</div>
+              <div class="scs">ngày học trong 7 ngày qua</div>
             </div>
             <div class="sc">
               <div class="sct">
@@ -3031,18 +3249,94 @@
                 <div class="scl">Tỉ lệ chính xác</div>
               </div>
               <div class="scv" id="pg-acc">—</div>
-              <div class="scs">Dựa trên flashcard</div>
+              <div class="scs" id="pg-acc-sub">Dựa trên tất cả bài tập</div>
             </div>
           </div>
           <div class="two">
             <div class="card">
               <div class="ctitle">
+                <span class="cti">📆</span>Lịch học 30 ngày gần nhất
+              </div>
+              <div id="heatmap-container" style="margin-bottom: 14px">
+                <div
+                  style="
+                    font-size: 0.75rem;
+                    color: var(--s400);
+                    margin-bottom: 8px;
+                  "
+                >
+                  Mỗi ô = 1 ngày · Màu đậm hơn = học nhiều hơn
+                </div>
+                <div class="heatmap-wrap">
+                  <div class="heatmap" id="study-heatmap"></div>
+                </div>
+                <div
+                  style="
+                    display: flex;
+                    align-items: center;
+                    gap: 5px;
+                    margin-top: 8px;
+                    font-size: 0.68rem;
+                    color: var(--s400);
+                  "
+                >
+                  <span>Ít</span>
+                  <div
+                    style="
+                      width: 14px;
+                      height: 14px;
+                      border-radius: 3px;
+                      background: var(--s100);
+                    "
+                  ></div>
+                  <div
+                    style="
+                      width: 14px;
+                      height: 14px;
+                      border-radius: 3px;
+                      background: var(--b100);
+                    "
+                  ></div>
+                  <div
+                    style="
+                      width: 14px;
+                      height: 14px;
+                      border-radius: 3px;
+                      background: var(--b300);
+                    "
+                  ></div>
+                  <div
+                    style="
+                      width: 14px;
+                      height: 14px;
+                      border-radius: 3px;
+                      background: var(--b500);
+                    "
+                  ></div>
+                  <div
+                    style="
+                      width: 14px;
+                      height: 14px;
+                      border-radius: 3px;
+                      background: var(--b700);
+                    "
+                  ></div>
+                  <span>Nhiều</span>
+                </div>
+              </div>
+              <div class="ctitle" style="margin-top: 8px">
                 <span class="cti">📈</span>Tiến độ theo thư mục
               </div>
               <div class="sblist" id="prog-bars"></div>
             </div>
             <div class="card">
-              <div class="ctitle"><span class="cti">🏅</span>Thành tích</div>
+              <div class="ctitle">
+                <span class="cti">📊</span>Phân tích từ vựng
+              </div>
+              <div id="vocab-analysis" style="margin-bottom: 16px"></div>
+              <div class="ctitle" style="margin-top: 4px">
+                <span class="cti">🏅</span>Thành tích
+              </div>
               <div style="display: flex; flex-direction: column; gap: 9px">
                 <div
                   style="
@@ -3744,219 +4038,13 @@ Leverage		Đòn bẩy; tận dụng lợi thế</pre
         { cls: "tb10", bg: "#9a3412" },
       ];
 
-      let DB = {
-        business: {
-          title: "Kinh doanh & Tài chính",
-          desc: "Từ vựng chuyên ngành kinh doanh, marketing, tài chính.",
-          emoji: "💼",
-          color: "tb1",
-          builtin: true,
-          words: [
-            {
-              word: "Synergy",
-              phon: "/ˈsɪnədʒi/",
-              def: "Sự cộng hưởng; hiệu quả tổng hợp lớn hơn từng phần riêng lẻ.",
-              type: "Danh từ",
-              status: "mastered",
-              ex: "The merger created a powerful synergy.",
-            },
-            {
-              word: "Leverage",
-              phon: "/ˈlevərɪdʒ/",
-              def: "Đòn bẩy; tận dụng lợi thế hoặc ảnh hưởng để đạt mục tiêu.",
-              type: "Danh từ",
-              status: "mastered",
-              ex: "We need to leverage our existing network.",
-            },
-            {
-              word: "Revenue",
-              phon: "/ˈrevənjuː/",
-              def: "Doanh thu; thu nhập từ hoạt động kinh doanh.",
-              type: "Danh từ",
-              status: "mastered",
-              ex: "Annual revenue grew by 15% this year.",
-            },
-            {
-              word: "Stakeholder",
-              phon: "/ˈsteɪkhoʊldər/",
-              def: "Bên liên quan; người có lợi ích trong doanh nghiệp.",
-              type: "Danh từ",
-              status: "learning",
-              ex: "All stakeholders attended the meeting.",
-            },
-            {
-              word: "Scalability",
-              phon: "/ˌskeɪləˈbɪlɪti/",
-              def: "Khả năng mở rộng quy mô mà không giảm hiệu suất.",
-              type: "Danh từ",
-              status: "learning",
-              ex: "Scalability is key for startup success.",
-            },
-            {
-              word: "Procurement",
-              phon: "/prəˈkjʊərmənt/",
-              def: "Mua sắm; quá trình thu mua hàng hóa, dịch vụ.",
-              type: "Danh từ",
-              status: "new",
-              ex: "The procurement team handles all vendor contracts.",
-            },
-          ],
-        },
-        academic: {
-          title: "Học thuật & Nghiên cứu",
-          desc: "Từ vựng học thuật cao cấp, luận văn, nghiên cứu khoa học.",
-          emoji: "🎓",
-          color: "tb3",
-          builtin: true,
-          words: [
-            {
-              word: "Hypothesis",
-              phon: "/haɪˈpɒθɪsɪs/",
-              def: "Giả thuyết; nhận định chưa được kiểm chứng.",
-              type: "Danh từ",
-              status: "mastered",
-              ex: "The hypothesis was supported by the data.",
-            },
-            {
-              word: "Empirical",
-              phon: "/ɪmˈpɪrɪkəl/",
-              def: "Thực nghiệm; dựa trên quan sát và bằng chứng thực tế.",
-              type: "Tính từ",
-              status: "mastered",
-              ex: "Empirical evidence supports this theory.",
-            },
-            {
-              word: "Methodology",
-              phon: "/ˌmeθəˈdɒlədʒi/",
-              def: "Phương pháp luận; hệ thống các phương pháp nghiên cứu.",
-              type: "Danh từ",
-              status: "learning",
-              ex: "The study used a qualitative methodology.",
-            },
-            {
-              word: "Paradigm",
-              phon: "/ˈpærədaɪm/",
-              def: "Mô hình tư duy; khuôn khổ nhận thức.",
-              type: "Danh từ",
-              status: "new",
-              ex: "A paradigm shift in scientific thinking.",
-            },
-          ],
-        },
-        travel: {
-          title: "Du lịch & Khám phá",
-          desc: "Từ vựng về du lịch, khách sạn, vé máy bay.",
-          emoji: "✈️",
-          color: "tb2",
-          builtin: true,
-          words: [
-            {
-              word: "Itinerary",
-              phon: "/aɪˈtɪnəreri/",
-              def: "Lịch trình; kế hoạch chi tiết chuyến đi.",
-              type: "Danh từ",
-              status: "mastered",
-              ex: "Our travel itinerary includes Paris and Rome.",
-            },
-            {
-              word: "Layover",
-              phon: "/ˈleɪoʊvər/",
-              def: "Thời gian chờ nối chuyến bay tại sân bay.",
-              type: "Danh từ",
-              status: "mastered",
-              ex: "We had a 3-hour layover in Dubai.",
-            },
-            {
-              word: "Excursion",
-              phon: "/ɪkˈskɜːrʒən/",
-              def: "Chuyến tham quan ngắn ngày trong chuyến du lịch.",
-              type: "Danh từ",
-              status: "learning",
-              ex: "We booked a day excursion to the ruins.",
-            },
-            {
-              word: "Itinerary",
-              phon: "/aɪˈtɪnəreri/",
-              def: "Lịch trình; kế hoạch chi tiết chuyến đi.",
-              type: "Danh từ",
-              status: "mastered",
-              ex: "Our travel itinerary includes Paris and Rome.",
-            },
-          ],
-        },
-        tech: {
-          title: "Công nghệ & Lập trình",
-          desc: "Từ vựng IT, phần mềm, AI, lập trình.",
-          emoji: "💻",
-          color: "tb7",
-          builtin: true,
-          words: [
-            {
-              word: "Algorithm",
-              phon: "/ˈælɡərɪðəm/",
-              def: "Thuật toán; tập hợp các bước có thứ tự để giải quyết bài toán.",
-              type: "Danh từ",
-              status: "mastered",
-              ex: "A sorting algorithm arranges data efficiently.",
-            },
-            {
-              word: "Latency",
-              phon: "/ˈleɪtənsi/",
-              def: "Độ trễ; thời gian phản hồi trong hệ thống máy tính.",
-              type: "Danh từ",
-              status: "learning",
-              ex: "Low latency is critical for real-time apps.",
-            },
-            {
-              word: "Refactoring",
-              phon: "/riːˈfæktərɪŋ/",
-              def: "Tái cấu trúc code mà không thay đổi chức năng.",
-              type: "Danh từ",
-              status: "new",
-              ex: "Refactoring improves code readability.",
-            },
-          ],
-        },
-        ielts: {
-          title: "IELTS Chuyên sâu",
-          desc: "Từ vựng Band 7.0+ cho IELTS.",
-          emoji: "📝",
-          color: "tb4",
-          builtin: true,
-          words: [
-            {
-              word: "Proliferation",
-              phon: "/prəˌlɪfəˈreɪʃən/",
-              def: "Sự phổ biến nhanh chóng; tăng trưởng số lượng đột biến.",
-              type: "Danh từ",
-              status: "learning",
-              ex: "The proliferation of smartphones changed society.",
-            },
-            {
-              word: "Exacerbate",
-              phon: "/ɪɡˈzæsərbeɪt/",
-              def: "Làm trầm trọng hơn; khiến tình huống xấu hơn.",
-              type: "Động từ",
-              status: "new",
-              ex: "Pollution exacerbates climate change.",
-            },
-            {
-              word: "Pragmatic",
-              phon: "/præɡˈmætɪk/",
-              def: "Thực dụng; tiếp cận vấn đề theo cách thực tế.",
-              type: "Tính từ",
-              status: "mastered",
-              ex: "A pragmatic approach to problem-solving.",
-            },
-          ],
-        },
-      };
+      let DB = {};
 
       // STATE
       let currentTopic = null;
       let fcIdx = 0,
         mfcIdx = 0,
-        mfcKey = "business";
+        mfcKey = Object.keys(DB)[0] || "";
       let learnMode = "fc",
         learnTopic = null;
       let quizSt = {},
@@ -3966,6 +4054,7 @@ Leverage		Đòn bẩy; tận dụng lợi thế</pre
         impNew = false;
       let totalAnswered = 0,
         totalCorrect = 0;
+      let studyLog = {}; // { "YYYY-MM-DD": { sessions: N, wordsReviewed: N, correct: N } }
 
       // ═══════════════════════════════════════════════════
       // NAVIGATION
@@ -4062,6 +4151,24 @@ Leverage		Đòn bẩy; tận dụng lợi thế</pre
             .join("");
         // badge
         document.getElementById("nb").textContent = Object.keys(DB).length;
+        // Update streak display dynamically
+        updateStreakDisplay();
+        // Update daily bar based on today's study activity
+        const todayLog = studyLog[getTodayKey()];
+        const todayWords = todayLog ? todayLog.wordsReviewed || 0 : 0;
+        const dailyGoal = 20;
+        const dailyPct = Math.min(
+          100,
+          Math.round((todayWords / dailyGoal) * 100),
+        );
+        const dailyBar = document.getElementById("daily-bar");
+        if (dailyBar) dailyBar.style.width = dailyPct + "%";
+        const dailyTxt = document.getElementById("daily-txt");
+        if (dailyTxt) dailyTxt.textContent = todayWords + "/" + dailyGoal;
+        // Hero sub
+        const heroSub = document.getElementById("hero-sub");
+        if (heroSub)
+          heroSub.textContent = `Bạn đã học được ${total} từ. ${m} từ đã thuộc (${pct}%). Streak: ${getStreak()} ngày 🔥`;
       }
 
       // ═══════════════════════════════════════════════════
@@ -4093,7 +4200,7 @@ Leverage		Đòn bẩy; tận dụng lợi thế</pre
         <div class="tacts">
           <button class="tbtn s" onclick="event.stopPropagation();openTopic('${key}')">▶ Học ngay</button>
           <button class="tbtn o" onclick="event.stopPropagation();exportFolder('${key}')">⬇️ Xuất</button>
-          ${!t.builtin ? `<button class="tbtn r" onclick="event.stopPropagation();delFolder('${key}')">🗑️</button>` : ""}
+          <button class="tbtn r" onclick="event.stopPropagation();delFolder('${key}')">🗑️</button>
         </div>
       </div>
     </div>`;
@@ -4300,8 +4407,12 @@ Leverage		Đòn bẩy; tận dụng lợi thế</pre
         if (st === "mastered") {
           totalAnswered++;
           totalCorrect++;
+          logStudyActivity(1, 1);
         } else if (st === "learning") {
           totalAnswered++;
+          logStudyActivity(1, 0);
+        } else {
+          logStudyActivity(1, 0);
         }
         nextFC();
         toast(
@@ -4371,8 +4482,12 @@ Leverage		Đòn bẩy; tận dụng lợi thế</pre
         if (st === "mastered") {
           totalAnswered++;
           totalCorrect++;
+          logStudyActivity(1, 1);
         } else if (st === "learning") {
           totalAnswered++;
+          logStudyActivity(1, 0);
+        } else {
+          logStudyActivity(1, 0);
         }
         toast(
           st === "mastered"
@@ -4477,10 +4592,12 @@ Leverage		Đòn bẩy; tận dụng lợi thế</pre
             if (b.textContent === correctDef) b.classList.add("correct");
           });
           quizSt.wrong.push(word);
+          logStudyActivity(1, 0);
         } else {
           quizSt.score++;
           totalAnswered++;
           totalCorrect++;
+          logStudyActivity(1, 1);
         }
         quizSt.cur++;
         setTimeout(() => renderQ(), 1100);
@@ -4669,7 +4786,11 @@ Leverage		Đòn bẩy; tận dụng lợi thế</pre
               spellSt.score++;
               totalAnswered++;
               totalCorrect++;
-            } else totalAnswered++;
+              logStudyActivity(1, 1);
+            } else {
+              totalAnswered++;
+              logStudyActivity(1, 0);
+            }
             spellSt.cur++;
             renderSpell();
           };
@@ -4808,6 +4929,7 @@ Leverage		Đòn bẩy; tận dụng lợi thế</pre
           speedSt.score++;
           speedSt.total++;
           speedSt.idx++;
+          logStudyActivity(1, 1);
           if (fb) {
             fb.style.color = "var(--ok)";
             fb.textContent = "✅ Đúng rồi! +1";
@@ -4998,33 +5120,129 @@ Leverage		Đòn bẩy; tận dụng lợi thế</pre
       // PROGRESS
       // ═══════════════════════════════════════════════════
       function renderProgress() {
-        const el = document.getElementById("prog-bars");
-        if (el)
-          el.innerHTML = Object.entries(DB)
-            .map(([k, t]) => {
-              const pct = t.words.length
-                ? Math.round(
-                    (t.words.filter((w) => w.status === "mastered").length /
-                      t.words.length) *
-                      100,
-                  )
-                : 0;
-              return `<div><div class="sbt"><span>${t.emoji} ${t.title} (${t.words.length} từ)</span><span style="color:var(--b600)">${pct}%</span></div><div class="sbtr"><div class="sbfi" style="width:${pct}%"></div></div></div>`;
-            })
-            .join("");
+        // Streak & study days
+        updateStreakDisplay();
+        const streak = getStreak();
+        const record = getRecordStreak();
+        const totalDays = getTotalStudyDays();
+        const weekDays = getWeekDays();
+        const firstDay = getFirstStudyDay();
+
+        // Inline top strip stats
+        const pgStreakInline = document.getElementById("pg-streak-inline");
+        if (pgStreakInline) pgStreakInline.textContent = streak;
+        const pgRecordInline = document.getElementById("pg-record-inline");
+        if (pgRecordInline) pgRecordInline.textContent = record;
+        const pgDaysInline = document.getElementById("pg-days-inline");
+        if (pgDaysInline) pgDaysInline.textContent = totalDays;
+
+        // Week strip — 7 day calendar
+        const weekStrip = document.getElementById("week-strip");
+        if (weekStrip) {
+          const today = getTodayKey();
+          const dayNames = ["CN", "T2", "T3", "T4", "T5", "T6", "T7"];
+          let stripHTML = "";
+          for (let i = 6; i >= 0; i--) {
+            const d = new Date(Date.now() - i * 86400000);
+            const key = d.toISOString().slice(0, 10);
+            const dow = dayNames[d.getDay()];
+            const dd = d.getDate();
+            const isToday = key === today;
+            const data = studyLog[key];
+            const wr = data ? data.wordsReviewed || 0 : 0;
+            let lvl = 0;
+            if (wr >= 20) lvl = 4;
+            else if (wr >= 10) lvl = 3;
+            else if (wr >= 3) lvl = 2;
+            else if (data) lvl = 1;
+            const bgColors = [
+              "var(--s100)",
+              "#dbeafe",
+              "#93c5fd",
+              "#3b82f6",
+              "#1d4ed8",
+            ];
+            const textColors = [
+              "var(--s300)",
+              "var(--b600)",
+              "var(--b700)",
+              "var(--wh)",
+              "var(--wh)",
+            ];
+            const outline = isToday
+              ? "outline:2.5px solid var(--warn);outline-offset:2px;"
+              : "";
+            stripHTML += `<div style="display:flex;flex-direction:column;align-items:center;gap:5px;flex:1">
+              <div style="font-size:.7rem;font-weight:700;color:${isToday ? "var(--b600)" : "var(--s400)"};">${dow}</div>
+              <div style="width:42px;height:42px;border-radius:10px;background:${bgColors[lvl]};color:${textColors[lvl]};display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-weight:800;font-size:.95rem;${outline}transition:all .2s" title="${key}: ${wr} từ đã ôn">${dd}</div>
+              <div style="font-size:.62rem;color:${lvl > 0 ? "var(--b600)" : "var(--s300)"};font-weight:600">${lvl > 0 ? (wr > 0 ? wr + "t" : "✓") : "—"}</div>
+            </div>`;
+          }
+          weekStrip.innerHTML = stripHTML;
+        }
+
+        // Stat cards
+        const pgTotalDays = document.getElementById("pg-total-days");
+        if (pgTotalDays) pgTotalDays.textContent = totalDays;
+        const pgFirstDay = document.getElementById("pg-first-day");
+        if (pgFirstDay)
+          pgFirstDay.textContent = firstDay
+            ? "Bắt đầu: " + firstDay
+            : "Hôm nay là ngày đầu!";
+        const pgWeekDays = document.getElementById("pg-week-days");
+        if (pgWeekDays) pgWeekDays.textContent = weekDays;
+
+        // Accuracy
         const acc = totalAnswered
           ? Math.round((totalCorrect / totalAnswered) * 100)
           : null;
         const pgAcc = document.getElementById("pg-acc");
         if (pgAcc) pgAcc.textContent = acc !== null ? acc + "%" : "—";
+        const pgAccSub = document.getElementById("pg-acc-sub");
+        if (pgAccSub && totalAnswered > 0)
+          pgAccSub.textContent =
+            totalCorrect + "/" + totalAnswered + " câu đúng";
+
+        // Topic bars
+        const el = document.getElementById("prog-bars");
+        if (el)
+          el.innerHTML = Object.entries(DB)
+            .map(([k, t]) => {
+              const m = t.words.filter((w) => w.status === "mastered").length;
+              const l = t.words.filter((w) => w.status === "learning").length;
+              const pct = t.words.length
+                ? Math.round((m / t.words.length) * 100)
+                : 0;
+              return `<div style="margin-bottom:10px">
+                <div class="sbt">
+                  <span>${t.emoji} ${t.title} <span style="color:var(--s400);font-size:.68rem">(${t.words.length} từ)</span></span>
+                  <span style="color:${pct >= 70 ? "var(--ok)" : pct >= 40 ? "var(--warn)" : "var(--s400)"}">${pct}%</span>
+                </div>
+                <div class="sbtr"><div class="sbfi" style="width:${pct}%"></div></div>
+                <div style="display:flex;gap:10px;font-size:.68rem;color:var(--s400);margin-top:3px">
+                  <span style="color:var(--ok)">✅ ${m} thuộc</span>
+                  <span style="color:var(--warn)">⏳ ${l} ôn</span>
+                  <span>🆕 ${t.words.length - m - l} mới</span>
+                </div>
+              </div>`;
+            })
+            .join("");
+
+        // Heatmap
+        renderHeatmap();
+
+        // Vocab analysis
+        renderVocabAnalysis();
+
+        // Achievements
         const folders = Object.keys(DB).length;
         const achEl = document.getElementById("ach-exp-v");
         if (achEl) {
           achEl.textContent = folders + "/5";
           if (folders >= 5) {
             achEl.style.color = "var(--b500)";
-            document.querySelector("#ach-exp span:first-child").style.filter =
-              "";
+            const icon = document.querySelector("#ach-exp span:first-child");
+            if (icon) icon.style.filter = "";
           }
         }
       }
@@ -5167,10 +5385,6 @@ Leverage		Đòn bẩy; tận dụng lợi thế</pre
 
       function delFolder(key) {
         if (!key || !DB[key]) return;
-        if (DB[key].builtin) {
-          toast("Không thể xóa thư mục mặc định", "warn");
-          return;
-        }
         if (!confirm('Xóa thư mục "' + DB[key].title + '"?')) return;
         delete DB[key];
         if (
@@ -5186,16 +5400,16 @@ Leverage		Đòn bẩy; tận dụng lợi thế</pre
       }
 
       function clearCustom() {
-        const custom = Object.keys(DB).filter((k) => !DB[k].builtin);
-        if (!custom.length) {
-          toast("Không có thư mục tự tạo", "warn");
+        const all = Object.keys(DB);
+        if (!all.length) {
+          toast("Không có thư mục nào", "warn");
           return;
         }
-        if (!confirm(`Xóa ${custom.length} thư mục tự tạo?`)) return;
-        custom.forEach((k) => delete DB[k]);
+        if (!confirm(`Xóa tất cả ${all.length} thư mục?`)) return;
+        all.forEach((k) => delete DB[k]);
         renderTopics();
         updateStats();
-        toast("Đã xóa tất cả thư mục tự tạo", "ok");
+        toast("Đã xóa tất cả thư mục", "ok");
         autoSave();
       }
 
@@ -5722,7 +5936,10 @@ Leverage		Đòn bẩy; tận dụng lợi thế</pre
         if (btn) {
           btn.textContent = "Tiếp →";
           btn.onclick = () => {
-            if (ok) dictSt.score++;
+            if (ok) {
+              dictSt.score++;
+              logStudyActivity(1, 1);
+            } else logStudyActivity(1, 0);
             dictSt.cur++;
             renderDictQ();
           };
@@ -6479,20 +6696,11 @@ Leverage		Đòn bẩy; tận dụng lợi thế</pre
       // ═══════════════════════════════════════════════════
       const STORAGE_KEY = "vocabmaster_db_v2";
       const STATS_KEY = "vocabmaster_stats_v2";
+      const STUDY_LOG_KEY = "vocabmaster_studylog_v1";
 
       function saveDB() {
         try {
-          // Only save custom folders and status changes to built-ins
-          const toSave = {};
-          Object.entries(DB).forEach(([k, t]) => {
-            if (!t.builtin) {
-              toSave[k] = t;
-            } else {
-              // Save only words array (status changes) for built-ins
-              toSave[k] = { ...t, _wordsOnly: true, words: t.words };
-            }
-          });
-          localStorage.setItem(STORAGE_KEY, JSON.stringify(toSave));
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(DB));
           localStorage.setItem(
             STATS_KEY,
             JSON.stringify({ totalAnswered, totalCorrect }),
@@ -6508,10 +6716,8 @@ Leverage		Đòn bẩy; tận dụng lợi thế</pre
           if (!raw) return;
           const saved = JSON.parse(raw);
           Object.entries(saved).forEach(([k, t]) => {
-            if (t._wordsOnly && DB[k]) {
-              // Restore status for built-in words
-              DB[k].words = t.words;
-            } else if (!t._wordsOnly) {
+            // Only load custom folders (no builtins anymore)
+            if (!t._wordsOnly) {
               DB[k] = t;
             }
           });
@@ -6521,11 +6727,263 @@ Leverage		Đòn bẩy; tận dụng lợi thế</pre
         } catch (e) {
           /* corrupt data */
         }
+        // Load study log after DB
+        loadStudyLog();
       }
 
       // Auto-save on every meaningful action
       function autoSave() {
         saveDB();
+      }
+
+      // ═══════════════════════════════════════════════════
+      // STUDY LOG — ĐẾM & THỐNG KÊ NGÀY HỌC
+      // ═══════════════════════════════════════════════════
+      function getTodayKey() {
+        return new Date().toISOString().slice(0, 10);
+      }
+
+      function logStudyActivity(wordsReviewed = 1, correct = 0) {
+        const key = getTodayKey();
+        if (!studyLog[key])
+          studyLog[key] = { sessions: 0, wordsReviewed: 0, correct: 0 };
+        studyLog[key].sessions = (studyLog[key].sessions || 0) + 1;
+        studyLog[key].wordsReviewed =
+          (studyLog[key].wordsReviewed || 0) + wordsReviewed;
+        studyLog[key].correct = (studyLog[key].correct || 0) + correct;
+        saveStudyLog();
+        updateStreakDisplay();
+      }
+
+      function logTodayAsStudied() {
+        // Mark today as a study day (called on app open)
+        const key = getTodayKey();
+        if (!studyLog[key]) {
+          studyLog[key] = { sessions: 0, wordsReviewed: 0, correct: 0 };
+          saveStudyLog();
+        }
+        updateStreakDisplay();
+      }
+
+      function saveStudyLog() {
+        try {
+          localStorage.setItem(STUDY_LOG_KEY, JSON.stringify(studyLog));
+        } catch (e) {
+          /* storage full */
+        }
+      }
+
+      function loadStudyLog() {
+        try {
+          const raw = localStorage.getItem(STUDY_LOG_KEY);
+          if (raw) studyLog = JSON.parse(raw);
+        } catch (e) {
+          studyLog = {};
+        }
+        logTodayAsStudied();
+      }
+
+      function getStreak() {
+        const sortedDays = Object.keys(studyLog).sort().reverse();
+        if (!sortedDays.length) return 1; // Today just opened = 1
+        const today = getTodayKey();
+        const yesterday = new Date(Date.now() - 86400000)
+          .toISOString()
+          .slice(0, 10);
+        // Must have today or yesterday to have active streak
+        if (sortedDays[0] !== today && sortedDays[0] !== yesterday) return 0;
+        let streak = 0;
+        let checkDate = today;
+        for (let i = 0; i <= sortedDays.length; i++) {
+          if (studyLog[checkDate]) {
+            streak++;
+            const prev = new Date(checkDate);
+            prev.setDate(prev.getDate() - 1);
+            checkDate = prev.toISOString().slice(0, 10);
+          } else {
+            break;
+          }
+        }
+        return Math.max(streak, 1);
+      }
+
+      function getRecordStreak() {
+        const days = Object.keys(studyLog).sort();
+        if (days.length <= 1) return Math.max(days.length, 1);
+        let max = 1,
+          cur = 1;
+        for (let i = 1; i < days.length; i++) {
+          const prev = new Date(days[i - 1] + "T00:00:00");
+          const curr = new Date(days[i] + "T00:00:00");
+          const diff = Math.round((curr - prev) / 86400000);
+          if (diff === 1) {
+            cur++;
+            if (cur > max) max = cur;
+          } else cur = 1;
+        }
+        return max;
+      }
+
+      function getTotalStudyDays() {
+        return Object.keys(studyLog).length;
+      }
+
+      function getWeekDays() {
+        let count = 0;
+        for (let i = 0; i < 7; i++) {
+          const d = new Date(Date.now() - i * 86400000)
+            .toISOString()
+            .slice(0, 10);
+          if (studyLog[d]) count++;
+        }
+        return count;
+      }
+
+      function getFirstStudyDay() {
+        const days = Object.keys(studyLog).sort();
+        if (!days.length) return null;
+        // Format: "DD/MM/YYYY"
+        const [y, m, d] = days[0].split("-");
+        return `${d}/${m}/${y}`;
+      }
+
+      function getWordsLearnedPerDay() {
+        const total = allWords().filter((w) => w.status !== "new").length;
+        const days = getTotalStudyDays();
+        return days > 0 ? (total / days).toFixed(1) : 0;
+      }
+
+      function updateStreakDisplay() {
+        const streak = getStreak();
+        // Sidebar streak
+        const sdEl = document.querySelector(".sd");
+        if (sdEl) sdEl.textContent = streak + " ngày";
+        // Hero section
+        const heroStreak = document.getElementById("h-streak");
+        if (heroStreak) heroStreak.textContent = streak;
+        // Progress section
+        const pgStreak = document.getElementById("pg-streak");
+        if (pgStreak) pgStreak.textContent = streak;
+        const pgRecord = document.getElementById("pg-record");
+        if (pgRecord)
+          pgRecord.textContent = "Kỷ lục: " + getRecordStreak() + " ngày";
+      }
+
+      function renderHeatmap() {
+        const container = document.getElementById("study-heatmap");
+        if (!container) return;
+        const today = getTodayKey();
+        const days = [];
+        for (let i = 29; i >= 0; i--) {
+          const d = new Date(Date.now() - i * 86400000);
+          const key = d.toISOString().slice(0, 10);
+          const dow = ["CN", "T2", "T3", "T4", "T5", "T6", "T7"][d.getDay()];
+          const dd = String(d.getDate()).padStart(2, "0");
+          const mm = String(d.getMonth() + 1).padStart(2, "0");
+          const data = studyLog[key] || null;
+          let lvl = 0;
+          if (data) {
+            const wr = data.wordsReviewed || 0;
+            if (wr >= 20) lvl = 4;
+            else if (wr >= 10) lvl = 3;
+            else if (wr >= 3) lvl = 2;
+            else lvl = 1;
+          }
+          days.push({ key, dow, dd, mm, data, lvl, isToday: key === today });
+        }
+        container.innerHTML = days
+          .map((day) => {
+            const title = day.data
+              ? `${day.dd}/${day.mm}: ${day.data.wordsReviewed || 0} từ đã ôn`
+              : `${day.dd}/${day.mm}: Chưa học`;
+            return `<div class="hm-day">
+            <div class="hm-cell ${day.lvl > 0 ? "lvl" + day.lvl : ""} ${day.isToday ? "today" : ""}"
+              title="${title}">
+              ${day.dd}
+            </div>
+            <div class="hm-lbl">${day.dow}</div>
+          </div>`;
+          })
+          .join("");
+      }
+
+      function renderVocabAnalysis() {
+        const el = document.getElementById("vocab-analysis");
+        if (!el) return;
+        const words = allWords();
+        const total = words.length;
+        if (!total) {
+          el.innerHTML =
+            '<div style="color:var(--s400);font-size:.85rem;text-align:center;padding:14px 0">Chưa có dữ liệu</div>';
+          return;
+        }
+        // Count by type
+        const typeMap = {};
+        words.forEach((w) => {
+          const t = w.type || "Khác";
+          typeMap[t] = (typeMap[t] || 0) + 1;
+        });
+        const topTypes = Object.entries(typeMap)
+          .sort((a, b) => b[1] - a[1])
+          .slice(0, 5);
+        const typeColors = [
+          "var(--b600)",
+          "#7c3aed",
+          "#059669",
+          "#d97706",
+          "#dc2626",
+        ];
+        // Status breakdown
+        const mastered = words.filter((w) => w.status === "mastered").length;
+        const learning = words.filter((w) => w.status === "learning").length;
+        const newW = words.filter((w) => w.status === "new").length;
+        const mastPct = Math.round((mastered / total) * 100);
+        const learnPct = Math.round((learning / total) * 100);
+        const newPct = Math.round((newW / total) * 100);
+
+        el.innerHTML = `
+          <div style="margin-bottom:12px">
+            <div style="font-size:.78rem;font-weight:600;color:var(--s600);margin-bottom:7px">Trạng thái học</div>
+            <div style="display:flex;height:10px;border-radius:6px;overflow:hidden;gap:2px;margin-bottom:6px">
+              <div style="width:${mastPct}%;background:var(--ok);border-radius:4px;min-width:${mastered ? 3 : 0}px" title="Đã thuộc: ${mastered}"></div>
+              <div style="width:${learnPct}%;background:var(--warn);border-radius:4px;min-width:${learning ? 3 : 0}px" title="Đang ôn: ${learning}"></div>
+              <div style="width:${newPct}%;background:var(--b400);border-radius:4px;min-width:${newW ? 3 : 0}px" title="Mới: ${newW}"></div>
+            </div>
+            <div style="display:flex;gap:12px;font-size:.72rem">
+              <span style="color:var(--ok)">✅ Thuộc ${mastered} (${mastPct}%)</span>
+              <span style="color:var(--warn)">⏳ Ôn ${learning} (${learnPct}%)</span>
+              <span style="color:var(--b500)">🆕 Mới ${newW} (${newPct}%)</span>
+            </div>
+          </div>
+          <div>
+            <div style="font-size:.78rem;font-weight:600;color:var(--s600);margin-bottom:7px">Loại từ phổ biến</div>
+            <div style="display:flex;flex-direction:column;gap:5px">
+              ${topTypes
+                .map(([type, cnt], i) => {
+                  const pct = Math.round((cnt / total) * 100);
+                  return `<div>
+                  <div style="display:flex;justify-content:space-between;font-size:.73rem;color:var(--s600);margin-bottom:3px">
+                    <span>${type}</span><span style="color:${typeColors[i]};font-weight:700">${cnt} từ (${pct}%)</span>
+                  </div>
+                  <div style="height:5px;background:var(--s100);border-radius:4px;overflow:hidden">
+                    <div style="height:100%;width:${pct}%;background:${typeColors[i]};border-radius:4px;transition:width .5s"></div>
+                  </div>
+                </div>`;
+                })
+                .join("")}
+            </div>
+          </div>
+          <div style="margin-top:12px;padding-top:10px;border-top:1px solid var(--s100);display:grid;grid-template-columns:1fr 1fr;gap:8px">
+            <div style="text-align:center;background:var(--s50);border-radius:9px;padding:9px">
+              <div style="font-family:var(--fd);font-weight:800;font-size:1.2rem;color:var(--b600)">${getWordsLearnedPerDay()}</div>
+              <div style="font-size:.7rem;color:var(--s400)">từ/ngày trung bình</div>
+            </div>
+            <div style="text-align:center;background:var(--s50);border-radius:9px;padding:9px">
+              <div style="font-family:var(--fd);font-weight:800;font-size:1.2rem;color:#059669">${getTotalStudyDays()}</div>
+              <div style="font-size:.7rem;color:var(--s400)">ngày đã học</div>
+            </div>
+          </div>
+        `;
       }
 
       // ═══════════════════════════════════════════════════
@@ -6863,7 +7321,7 @@ Leverage		Đòn bẩy; tận dụng lợi thế</pre
       <div><div class="rbv" style="color:var(--ok)">${score}</div><div class="rbl">Đúng</div></div>
       <div><div class="rbv" style="color:var(--err)">${qs.length - score}</div><div class="rbl">Sai</div></div>
     </div>
-    <button class="btn p" style="margin:0 auto" onclick="initScramble('${scrambleSt.key || currentTopic}','${cid}')">🔄 Làm lại</button>
+    <button class="btn p" style="margin:0 auto" onclick="initScramble('${scrambleSt.key || currentTopic}','${cid}')">Làm lại</button>
   </div></div>`;
       }
 
@@ -7103,8 +7561,8 @@ Leverage		Đòn bẩy; tận dụng lợi thế</pre
         const prov = document.getElementById("settings-ai-provider");
         if (el)
           el.textContent = ieltsApiKey
-            ? `✅ Đã cài đặt (${ieltsProvider === "claude" ? "Claude" : "OpenAI"})`
-            : "⚠️ Chưa cài đặt — IELTS Lab dùng bài mẫu";
+            ? `Đã cài đặt (${ieltsProvider === "claude" ? "Claude" : "OpenAI"})`
+            : "Chưa cài đặt — IELTS Lab dùng bài mẫu";
         if (prov) prov.value = ieltsProvider || "claude";
       }
 
