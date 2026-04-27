@@ -86,8 +86,8 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 1.2rem;
         flex-shrink: 0;
+        color: #fff;
         box-shadow: 0 4px 12px rgba(96, 165, 250, 0.35);
       }
       .lt {
@@ -184,9 +184,19 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 0.9rem;
         flex-shrink: 0;
         transition: all 0.15s;
+        color: rgba(255, 255, 255, 0.6);
+      }
+      .ni .ic svg {
+        display: block;
+      }
+      .ni:hover .ic {
+        color: #fff;
+      }
+      .ni.active .ic {
+        background: var(--b500);
+        color: #fff;
       }
       .ni:hover {
         color: var(--wh);
@@ -197,8 +207,25 @@
         background: rgba(96, 165, 250, 0.2);
         border: 1px solid rgba(96, 165, 250, 0.3);
       }
-      .ni.active .ic {
-        background: var(--b500);
+      /* SVG icon base */
+      .bn-ic svg {
+        display: block;
+      }
+      .sci svg {
+        display: block;
+      }
+      .qci svg {
+        display: block;
+      }
+      .cti svg {
+        display: block;
+        vertical-align: middle;
+      }
+      .lm svg {
+        display: block;
+      }
+      .sf svg {
+        display: block;
       }
       .nbadge {
         margin-left: auto;
@@ -220,8 +247,11 @@
         gap: 10px;
       }
       .sf {
-        font-size: 1.3rem;
         animation: pulse 2s ease-in-out infinite;
+        color: #fbbf24;
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
       @keyframes pulse {
         0%,
@@ -530,19 +560,23 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 1rem;
+        flex-shrink: 0;
       }
       .ib {
         background: var(--b50);
+        color: var(--b600);
       }
       .ig {
         background: #ecfdf5;
+        color: #059669;
       }
       .ia {
         background: #fffbeb;
+        color: #d97706;
       }
       .iv {
         background: #f5f3ff;
+        color: #7c3aed;
       }
       .scl {
         font-size: 0.76rem;
@@ -591,7 +625,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 1.2rem;
+        color: var(--b600);
       }
       .qct {
         font-family: var(--fd);
@@ -629,7 +663,8 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 0.85rem;
+        color: var(--b600);
+        flex-shrink: 0;
       }
       .two {
         display: grid;
@@ -1864,7 +1899,7 @@
          RESPONSIVE — MOBILE FIRST
          ════════════════════════════════════════════════ */
 
-      /* Hamburger button (hidden on desktop) */
+      /* ── Hamburger button ── */
       .mob-menu-btn {
         display: none;
         width: 38px;
@@ -1876,50 +1911,64 @@
         align-items: center;
         justify-content: center;
         flex-direction: column;
-        gap: 4px;
+        gap: 5px;
         flex-shrink: 0;
         transition: all 0.15s;
       }
       .mob-menu-btn span {
         display: block;
-        width: 16px;
+        width: 17px;
         height: 2px;
-        background: var(--s600);
+        background: var(--s700);
         border-radius: 2px;
         transition: all 0.25s;
       }
-      .mob-menu-btn:hover {
-        border-color: var(--b400);
+      .mob-menu-btn.open span:nth-child(1) {
+        transform: translateY(7px) rotate(45deg);
+      }
+      .mob-menu-btn.open span:nth-child(2) {
+        opacity: 0;
+      }
+      .mob-menu-btn.open span:nth-child(3) {
+        transform: translateY(-7px) rotate(-45deg);
       }
 
-      /* Sidebar overlay */
+      /* ── Sidebar overlay ── */
       .sb-overlay {
         display: none;
         position: fixed;
         inset: 0;
-        background: rgba(0, 0, 0, 0.45);
+        background: rgba(0, 0, 0, 0.5);
         backdrop-filter: blur(3px);
         z-index: 190;
       }
       .sb-overlay.show {
         display: block;
-        animation: mof 0.2s ease;
+        animation: mof 0.22s ease;
+      }
+      @keyframes mof {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
       }
 
-      /* Bottom navigation (mobile only) */
+      /* ── Bottom navigation ── */
       .bottom-nav {
         display: none;
         position: fixed;
         bottom: 0;
         left: 0;
         right: 0;
-        height: 62px;
-        background: var(--b900);
-        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        height: 60px;
+        background: #0f172a;
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
         z-index: 200;
-        padding: 0 4px;
+        padding: 0 2px;
         align-items: stretch;
-        box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 -6px 24px rgba(0, 0, 0, 0.25);
       }
       .bn-item {
         flex: 1;
@@ -1931,39 +1980,56 @@
         border: none;
         background: transparent;
         cursor: pointer;
-        padding: 6px 2px 8px;
+        padding: 6px 4px 8px;
         border-radius: 10px;
-        transition: all 0.15s;
-        color: rgba(255, 255, 255, 0.5);
+        transition: all 0.18s;
+        color: rgba(255, 255, 255, 0.45);
         font-family: var(--fb);
-        min-width: 0;
+        position: relative;
       }
       .bn-item .bn-ic {
-        font-size: 1.3rem;
         line-height: 1;
-        transition: transform 0.15s;
+        transition: transform 0.18s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
       .bn-item .bn-lb {
-        font-size: 0.55rem;
+        font-size: 0.56rem;
         font-weight: 600;
         letter-spacing: 0.01em;
         white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        max-width: 100%;
       }
       .bn-item.active {
-        color: var(--b300);
-        background: rgba(96, 165, 250, 0.15);
+        color: #93c5fd;
       }
       .bn-item.active .bn-ic {
         transform: translateY(-2px);
       }
+      .bn-item.active::after {
+        content: "";
+        position: absolute;
+        bottom: 4px;
+        width: 18px;
+        height: 2px;
+        background: #93c5fd;
+        border-radius: 2px;
+      }
       .bn-item:active {
-        transform: scale(0.93);
+        transform: scale(0.9);
       }
 
-      /* ── Tablet (≤1024px) ── */
+      /* ── Mobile FAB buttons (icon only) ── */
+      .mob-fab {
+        width: 38px;
+        height: 38px;
+        padding: 0 !important;
+        justify-content: center;
+        font-size: 1rem;
+        border-radius: 10px;
+      }
+
+      /* ════ Tablet ≤ 1024px ════ */
       @media (max-width: 1024px) {
         :root {
           --sw: 230px;
@@ -1971,21 +2037,18 @@
         main {
           padding: 20px 20px;
         }
-        .hg {
-          font-size: 1.35rem !important;
-        }
         .tgrid {
-          grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+          grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
         }
       }
 
-      /* ── Mobile (≤768px) ── */
+      /* ════ Mobile ≤ 768px ════ */
       @media (max-width: 768px) {
         :root {
-          --sw: 268px;
+          --sw: 272px;
         }
 
-        /* Sidebar: slide in from left over content */
+        /* ── Sidebar: slide-in drawer ── */
         .sidebar {
           transform: translateX(-100%);
           transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
@@ -1994,105 +2057,129 @@
         }
         .sidebar.open {
           transform: translateX(0);
-          box-shadow: 6px 0 32px rgba(0, 0, 0, 0.3);
+          box-shadow: 8px 0 40px rgba(0, 0, 0, 0.35);
         }
 
-        /* Layout: full width, bottom padding for bottom nav */
+        /* ── Layout ── */
         .layout {
           margin-left: 0;
-          padding-bottom: 62px;
+          padding-bottom: 64px; /* room for bottom nav */
         }
 
-        /* Topbar */
+        /* ── Topbar ── */
         .topbar {
-          padding: 0 14px;
-          height: 54px;
+          padding: 0 12px;
+          height: 52px;
+          gap: 8px;
+        }
+        .tb-title {
+          flex: 1;
+          font-size: 0.9rem;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
         .tb-acts {
-          gap: 5px;
+          gap: 6px;
         }
-        .dpill {
-          display: none;
-        } /* hide daily pill — too cramped */
-        .btn.tb-desktop {
-          display: none;
-        } /* hide desktop-only topbar buttons */
 
-        /* Show hamburger */
+        /* Hide desktop elements, show mobile ones */
         .mob-menu-btn {
           display: flex;
         }
+        .dpill {
+          display: none;
+        }
+        .tb-desk {
+          display: none !important;
+        }
+        .mob-fab {
+          display: inline-flex !important;
+        }
+        .bottom-nav {
+          display: flex;
+        }
 
-        /* Main content */
+        /* ── Main ── */
         main {
-          padding: 14px 14px 10px;
+          padding: 14px 13px 10px;
           max-width: 100%;
         }
 
-        /* Page headers */
-        .ph h1 {
-          font-size: 1.25rem;
-        }
-        .ph p {
-          font-size: 0.82rem;
-        }
+        /* ── Page header ── */
         .ph {
           margin-bottom: 14px;
         }
+        .ph h1 {
+          font-size: 1.2rem;
+        }
+        .ph p {
+          font-size: 0.8rem;
+        }
 
-        /* Hero banner */
+        /* ── Hero banner ── */
         .hero {
-          padding: 18px 18px;
-          border-radius: 14px;
+          padding: 18px 16px 20px;
+          border-radius: 16px;
           margin-bottom: 14px;
         }
         .hg {
-          font-size: 1.2rem !important;
+          font-size: 1.15rem !important;
+        }
+        .hi {
+          font-size: 1.15rem !important;
         }
         .hs {
-          font-size: 0.82rem;
+          font-size: 0.8rem;
           margin-bottom: 14px;
         }
         .hstats {
-          gap: 8px;
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 6px;
         }
         .hstat {
-          padding: 9px 12px;
-          min-width: 70px;
+          padding: 9px 8px;
+          border-radius: 10px;
+          min-width: 0;
         }
         .hsv {
-          font-size: 1.4rem !important;
+          font-size: 1.3rem !important;
         }
         .hsl {
-          font-size: 0.62rem;
+          font-size: 0.58rem;
         }
 
-        /* Stat grid: 2 columns */
+        /* ── Stat cards: 2 col ── */
         .sgrid {
           grid-template-columns: 1fr 1fr;
           gap: 9px;
+          margin-bottom: 14px;
         }
         .sc {
-          padding: 13px 14px;
+          padding: 13px 12px;
         }
         .scv {
-          font-size: 1.35rem;
+          font-size: 1.3rem;
+        }
+        .scs {
+          font-size: 0.68rem;
         }
 
-        /* Two-col → one col */
+        /* ── Two-col → single col ── */
         .two {
           grid-template-columns: 1fr;
           gap: 12px;
           margin-bottom: 14px;
         }
 
-        /* Topic grid */
+        /* ── Topic grid ── */
         .tgrid {
           grid-template-columns: 1fr;
           gap: 11px;
         }
 
-        /* Quick start grid: 3 cols */
+        /* ── Quick start: 3 col ── */
         .qgrid {
           grid-template-columns: repeat(3, 1fr);
           gap: 8px;
@@ -2106,51 +2193,70 @@
         .qci {
           width: 36px;
           height: 36px;
-          font-size: 1rem;
+          font-size: 0.95rem;
         }
         .qct {
-          font-size: 0.75rem;
+          font-size: 0.73rem;
         }
         .qcs {
-          font-size: 0.65rem;
+          font-size: 0.63rem;
         }
 
-        /* Form rows: single col */
+        /* ── Forms ── */
         .frow {
           grid-template-columns: 1fr;
           gap: 8px;
         }
 
-        /* Flashcard */
+        /* ── Cards ── */
+        .card {
+          padding: 16px 13px;
+        }
+
+        /* ── Flashcard ── */
         .fc {
-          height: 210px;
+          height: 200px;
+          border-radius: 14px;
         }
         .fcw {
-          font-size: 1.55rem !important;
+          font-size: 1.5rem !important;
+        }
+        .fcp {
+          font-size: 0.9rem !important;
+        }
+        .fcd {
+          font-size: 0.82rem !important;
         }
         .fcnav {
+          display: grid;
+          grid-template-columns: 1fr 1fr 1fr;
           gap: 7px;
         }
+        .fcnav button {
+          font-size: 0.75rem !important;
+        }
 
-        /* Word list items */
+        /* ── Word list ── */
         .witem {
           padding: 11px 12px;
-          gap: 9px;
+          gap: 10px;
         }
-        .wdef {
-          font-size: 0.8rem;
-          padding-left: 6px;
+        .wicon {
+          width: 34px;
+          height: 34px;
+          font-size: 0.95rem;
         }
         .wword {
-          font-size: 0.9rem;
+          font-size: 0.88rem;
+        }
+        .wdef {
+          font-size: 0.77rem;
+        }
+        .wbadge {
+          font-size: 0.65rem;
         }
 
-        /* Cards */
-        .card {
-          padding: 16px 14px;
-        }
-
-        /* Tabs: scrollable row */
+        /* ── Tabs: horizontal scroll ── */
         .tabs {
           display: flex;
           flex-wrap: nowrap;
@@ -2159,211 +2265,215 @@
           padding-bottom: 4px;
           -webkit-overflow-scrolling: touch;
           scrollbar-width: none;
+          margin-bottom: 14px;
         }
         .tabs::-webkit-scrollbar {
           display: none;
         }
         .tab {
           white-space: nowrap;
-          padding: 6px 13px;
-          font-size: 0.78rem;
+          padding: 6px 12px;
+          font-size: 0.76rem;
         }
 
-        /* Buttons: slightly taller for touch */
-        .btn {
-          height: 38px;
-          padding: 0 12px;
-        }
-        .tbtn {
-          height: 36px;
-        }
-
-        /* Topic card actions */
-        .tacts {
-          gap: 5px;
-        }
-        .tbtn {
-          font-size: 0.73rem;
-        }
-
-        /* Modal: near-fullscreen */
-        .md {
-          padding: 20px 16px;
-          border-radius: 18px 18px 0 0;
-          max-width: 100% !important;
-          max-height: 92vh;
-          width: 100%;
-          margin-top: auto;
-        }
+        /* ── Modals: bottom sheet ── */
         .mo {
           align-items: flex-end;
           padding: 0;
         }
+        .md {
+          padding: 20px 16px 24px;
+          border-radius: 20px 20px 0 0;
+          max-width: 100% !important;
+          max-height: 90vh;
+          width: 100%;
+          margin-top: auto;
+          overflow-y: auto;
+        }
+        /* Drag handle on modals */
+        .md::before {
+          content: "";
+          display: block;
+          width: 36px;
+          height: 4px;
+          background: var(--s200);
+          border-radius: 3px;
+          margin: 0 auto 16px;
+        }
         .md-title {
-          font-size: 1.1rem;
+          font-size: 1.05rem;
         }
 
-        /* Detail header */
+        /* ── Detail page ── */
         .dhdr {
-          padding: 15px 14px;
-        }
-        .dhdr-top {
-          gap: 10px;
+          padding: 14px 13px;
         }
         .dhdr h2 {
-          font-size: 1.1rem;
+          font-size: 1.05rem;
+        }
+        .dhdr-top {
+          gap: 9px;
+          flex-wrap: wrap;
         }
         .dhdr-acts {
-          gap: 5px;
-        }
-        .dstats {
-          gap: 12px;
-        }
-        .dsv {
-          font-size: 1.1rem;
+          gap: 6px;
+          flex-wrap: wrap;
         }
         .dhdr-acts .btn {
-          font-size: 0.75rem;
-          padding: 0 10px;
+          font-size: 0.73rem;
+          height: 34px;
+        }
+        .dstats {
+          gap: 10px;
+          flex-wrap: wrap;
+        }
+        .dsv {
+          font-size: 1rem;
         }
 
-        /* Progress section */
-        .prog-summary {
-          grid-template-columns: 1fr 1fr;
-          gap: 8px;
-        }
-
-        /* Learn modes grid */
+        /* ── Learn modes grid: 2 col ── */
         .lmgrid {
           grid-template-columns: 1fr 1fr;
           gap: 9px;
         }
         .lmcard {
-          padding: 14px;
+          padding: 14px 12px;
         }
         .lmi {
-          font-size: 1.5rem;
+          font-size: 1.6rem;
           margin-bottom: 6px;
         }
         .lmt {
-          font-size: 0.85rem;
+          font-size: 0.82rem;
         }
         .lmd {
-          font-size: 0.72rem;
+          font-size: 0.7rem;
         }
 
-        /* IELTS tabs */
-        #ielts-skill-tabs {
-          flex-wrap: nowrap !important;
-          overflow-x: auto;
-          padding-bottom: 4px;
-          -webkit-overflow-scrolling: touch;
-          scrollbar-width: none;
+        /* ── Progress ── */
+        .prog-summary {
+          grid-template-columns: 1fr 1fr;
+          gap: 8px;
         }
-        #ielts-skill-tabs::-webkit-scrollbar {
-          display: none;
-        }
+
+        /* ── IELTS tabs: scroll ── */
         .ielts-stab {
           white-space: nowrap;
+          padding: 7px 14px;
+          font-size: 0.78rem;
         }
 
-        /* Topbar action buttons: icon-only labels on mobile */
-        .tb-label {
-          display: none;
-        }
-
-        /* XP bar in sidebar */
-        .sb-xp {
-          margin: 10px 12px 0;
-          padding: 10px 13px;
-        }
-
-        /* Heatmap: reduce cell size */
+        /* ── Heatmap ── */
         .hm-cell {
           width: 28px;
           height: 28px;
-          font-size: 0.62rem;
+          font-size: 0.6rem;
+          border-radius: 6px;
         }
 
-        /* Week strip smaller */
+        /* ── Week strip cells ── */
         #week-strip > div > div:nth-child(2) {
-          width: 36px !important;
-          height: 36px !important;
+          width: 38px !important;
+          height: 38px !important;
         }
 
-        /* Show bottom nav */
-        .bottom-nav {
-          display: flex;
+        /* ── Buttons: touch-friendly ── */
+        .btn {
+          height: 38px;
+        }
+        .tbtn {
+          height: 36px;
+          min-width: 36px;
         }
 
-        /* Back button */
+        /* ── Search ── */
+        .thdr {
+          gap: 7px;
+        }
+        .searchbar input {
+          width: 130px;
+        }
+
+        /* ── Settings ── */
+        .strow {
+          flex-wrap: wrap;
+          gap: 8px;
+        }
+        .stsec {
+          padding: 16px 14px;
+        }
+
+        /* ── Score / result ── */
+        .rsc {
+          font-size: 2.4rem;
+        }
+        .rsub {
+          font-size: 0.85rem;
+        }
+
+        /* ── Speed round input ── */
+        #speed-inp {
+          font-size: 1rem;
+        }
+
+        /* ── Back button ── */
         .back {
           font-size: 0.8rem;
           margin-bottom: 12px;
         }
 
-        /* Search bar */
-        .searchbar input {
-          width: 140px;
+        /* ── Topic card ── */
+        .tcard-footer {
+          padding: 10px 12px;
+          gap: 6px;
         }
-        .thdr {
-          gap: 8px;
-        }
-        .thdr > div {
+        .tacts {
           gap: 5px;
         }
-
-        /* Settings rows */
-        .strow {
-          flex-wrap: wrap;
-          gap: 8px;
-        }
-
-        /* Score display */
-        .rsc {
-          font-size: 2.5rem;
-        }
-
-        /* Speed round input */
-        #speed-inp {
-          font-size: 1.1rem;
+        .tbtn {
+          font-size: 0.72rem;
         }
       }
 
-      /* ── Small mobile (≤420px) ── */
+      /* ════ Small mobile ≤ 420px ════ */
       @media (max-width: 420px) {
         main {
           padding: 12px 11px 8px;
         }
+
+        .hstats {
+          grid-template-columns: repeat(2, 1fr);
+          gap: 6px;
+        }
+        .hstat {
+          padding: 10px;
+        }
+        .hsv {
+          font-size: 1.2rem !important;
+        }
+
         .qgrid {
           grid-template-columns: repeat(2, 1fr);
         }
+
+        .lmgrid {
+          grid-template-columns: 1fr;
+        }
+
         .sgrid {
           grid-template-columns: 1fr 1fr;
           gap: 7px;
         }
-        .hstat {
-          padding: 8px 9px;
-          min-width: 0;
-        }
-        .hsv {
-          font-size: 1.25rem !important;
-        }
-        .lmgrid {
-          grid-template-columns: 1fr;
-        }
-        .tacts {
-          flex-wrap: wrap;
-        }
-        .wicon {
-          width: 28px;
-          height: 28px;
-        }
-        .dhdr-acts .btn:nth-child(n + 3) {
-          display: none;
-        } /* hide less-used detail btns */
+
         .fc {
-          height: 190px;
+          height: 185px;
+        }
+        .fcw {
+          font-size: 1.35rem !important;
+        }
+
+        .bn-item .bn-lb {
+          font-size: 0.5rem;
         }
       }
       ::-webkit-scrollbar {
@@ -2809,7 +2919,23 @@
     <!-- SIDEBAR -->
     <aside class="sidebar">
       <div class="sb-logo">
-        <div class="lm">📚</div>
+        <div class="lm">
+          <svg
+            width="22"
+            height="22"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M4 19.5A2.5 2.5 0 016.5 17H20" />
+            <path
+              d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"
+            />
+          </svg>
+        </div>
         <div class="lt">VocabMaster<span>Dành cho Nhân và Linh</span></div>
       </div>
       <div class="sb-xp">
@@ -2823,48 +2949,280 @@
       </div>
       <div class="nav-links">
         <div class="nsl">Tổng quan</div>
-        <button class="ni active" onclick="nav('dashboard', this)">
-          <span class="ic">🏠</span>Trang chủ
+        <button
+          class="ni active"
+          onclick="
+            nav('dashboard', this);
+            closeSidebar();
+          "
+        >
+          <span class="ic"
+            ><svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
+              <polyline points="9 22 9 12 15 12 15 22" /></svg></span
+          >Trang chủ
         </button>
-        <button class="ni" onclick="nav('topics', this)">
-          <span class="ic">📂</span>Mục từ vựng<span class="nbadge" id="nb"
-            >8</span
-          >
+        <button
+          class="ni"
+          onclick="
+            nav('topics', this);
+            closeSidebar();
+          "
+        >
+          <span class="ic"
+            ><svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path
+                d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"
+              /></svg></span
+          >Mục từ vựng<span class="nbadge" id="nb">0</span>
         </button>
-        <button class="ni" onclick="nav('learn', this)">
-          <span class="ic">🎯</span>Luyện tập
+        <button
+          class="ni"
+          onclick="
+            nav('learn', this);
+            closeSidebar();
+          "
+        >
+          <span class="ic"
+            ><svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="12" cy="12" r="10" />
+              <circle cx="12" cy="12" r="6" />
+              <circle cx="12" cy="12" r="2" /></svg></span
+          >Luyện tập
         </button>
         <div class="nsl" style="margin-top: 6px">Học tập</div>
-        <button class="ni" onclick="nav('flashcards', this)">
-          <span class="ic">🃏</span>Thẻ ghi nhớ
+        <button
+          class="ni"
+          onclick="
+            nav('flashcards', this);
+            closeSidebar();
+          "
+        >
+          <span class="ic"
+            ><svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <rect x="2" y="4" width="20" height="14" rx="3" />
+              <line x1="8" y1="4" x2="8" y2="18" />
+              <line x1="16" y1="4" x2="16" y2="18" /></svg></span
+          >Thẻ ghi nhớ
         </button>
-        <button class="ni" onclick="nav('quiz', this)">
-          <span class="ic">✅</span>Kiểm tra nhanh
+        <button
+          class="ni"
+          onclick="
+            nav('quiz', this);
+            closeSidebar();
+          "
+        >
+          <span class="ic"
+            ><svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="12" cy="12" r="10" />
+              <path d="M9 12l2 2 4-4" /></svg></span
+          >Kiểm tra nhanh
         </button>
-        <button class="ni" onclick="nav('spelling', this)">
-          <span class="ic">🔤</span>Kiểm tra chính tả
+        <button
+          class="ni"
+          onclick="
+            nav('spelling', this);
+            closeSidebar();
+          "
+        >
+          <span class="ic"
+            ><svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <polyline points="4 7 4 4 20 4 20 7" />
+              <line x1="9" y1="20" x2="15" y2="20" />
+              <line x1="12" y1="4" x2="12" y2="20" /></svg></span
+          >Kiểm tra chính tả
         </button>
-        <button class="ni" onclick="nav('speed', this)">
-          <span class="ic">⚡</span>Speed Round
+        <button
+          class="ni"
+          onclick="
+            nav('speed', this);
+            closeSidebar();
+          "
+        >
+          <span class="ic"
+            ><svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <polygon
+                points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"
+              /></svg></span
+          >Speed Round
         </button>
-        <button class="ni" onclick="nav('dictation', this)">
-          <span class="ic">🎧</span>Luyện nghe chính tả
+        <button
+          class="ni"
+          onclick="
+            nav('dictation', this);
+            closeSidebar();
+          "
+        >
+          <span class="ic"
+            ><svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M3 18v-6a9 9 0 0118 0v6" />
+              <path
+                d="M21 19a2 2 0 01-2 2h-1a2 2 0 01-2-2v-3a2 2 0 012-2h3zM3 19a2 2 0 002 2h1a2 2 0 002-2v-3a2 2 0 00-2-2H3z"
+              /></svg></span
+          >Luyện nghe chính tả
         </button>
         <div class="nsl" style="margin-top: 6px">IELTS Skills</div>
-        <button class="ni" onclick="nav('ielts', this)">
-          <span class="ic">🏫</span>IELTS Lab
+        <button
+          class="ni"
+          onclick="
+            nav('ielts', this);
+            closeSidebar();
+          "
+        >
+          <span class="ic"
+            ><svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M2 20h20M4 20V10l8-7 8 7v10" />
+              <path d="M9 20v-5h6v5" /></svg></span
+          >IELTS Lab
           <span class="nbadge" style="background: #8b5cf6">AI</span>
         </button>
         <div class="nsl" style="margin-top: 6px">Cá nhân</div>
-        <button class="ni" onclick="nav('progress', this)">
-          <span class="ic">📊</span>Tiến độ
+        <button
+          class="ni"
+          onclick="
+            nav('progress', this);
+            closeSidebar();
+          "
+        >
+          <span class="ic"
+            ><svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <line x1="18" y1="20" x2="18" y2="10" />
+              <line x1="12" y1="20" x2="12" y2="4" />
+              <line x1="6" y1="20" x2="6" y2="14" /></svg></span
+          >Tiến độ
         </button>
-        <button class="ni" onclick="nav('settings', this)">
-          <span class="ic">⚙️</span>Cài đặt
+        <button
+          class="ni"
+          onclick="
+            nav('settings', this);
+            closeSidebar();
+          "
+        >
+          <span class="ic"
+            ><svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="12" cy="12" r="3" />
+              <path
+                d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"
+              /></svg></span
+          >Cài đặt
         </button>
       </div>
       <div class="sb-streak">
-        <div class="sf">🔥</div>
+        <div class="sf">
+          <svg
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path
+              d="M8.5 14.5A2.5 2.5 0 0011 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 01-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 002.5 2.5z"
+            />
+          </svg>
+        </div>
         <div>
           <div class="sd">14 ngày</div>
           <div class="sl2">Chuỗi học liên tiếp</div>
@@ -2872,25 +3230,225 @@
       </div>
     </aside>
 
+    <!-- Sidebar overlay (mobile) -->
+    <div class="sb-overlay" id="sb-overlay" onclick="closeSidebar()"></div>
+
+    <!-- Bottom navigation (mobile) -->
+    <nav class="bottom-nav" id="bottom-nav">
+      <button
+        class="bn-item active"
+        id="bn-dashboard"
+        onclick="
+          nav('dashboard', this);
+          closeSidebar();
+        "
+      >
+        <span class="bn-ic"
+          ><svg
+            width="22"
+            height="22"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
+            <polyline points="9 22 9 12 15 12 15 22" /></svg></span
+        ><span class="bn-lb">Trang chủ</span>
+      </button>
+      <button
+        class="bn-item"
+        id="bn-topics"
+        onclick="
+          nav('topics', this);
+          closeSidebar();
+        "
+      >
+        <span class="bn-ic"
+          ><svg
+            width="22"
+            height="22"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path
+              d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"
+            /></svg></span
+        ><span class="bn-lb">Từ vựng</span>
+      </button>
+      <button
+        class="bn-item"
+        id="bn-learn"
+        onclick="
+          nav('learn', this);
+          closeSidebar();
+        "
+      >
+        <span class="bn-ic"
+          ><svg
+            width="22"
+            height="22"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <circle cx="12" cy="12" r="10" />
+            <circle cx="12" cy="12" r="6" />
+            <circle cx="12" cy="12" r="2" /></svg></span
+        ><span class="bn-lb">Luyện tập</span>
+      </button>
+      <button
+        class="bn-item"
+        id="bn-progress"
+        onclick="
+          nav('progress', this);
+          closeSidebar();
+        "
+      >
+        <span class="bn-ic"
+          ><svg
+            width="22"
+            height="22"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <line x1="18" y1="20" x2="18" y2="10" />
+            <line x1="12" y1="20" x2="12" y2="4" />
+            <line x1="6" y1="20" x2="6" y2="14" /></svg></span
+        ><span class="bn-lb">Tiến độ</span>
+      </button>
+      <button class="bn-item" id="bn-more" onclick="openSidebar()">
+        <span class="bn-ic"
+          ><svg
+            width="22"
+            height="22"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <line x1="3" y1="6" x2="21" y2="6" />
+            <line x1="3" y1="12" x2="21" y2="12" />
+            <line x1="3" y1="18" x2="21" y2="18" /></svg></span
+        ><span class="bn-lb">Thêm</span>
+      </button>
+    </nav>
+
     <!-- LAYOUT -->
     <div class="layout">
       <header class="topbar">
+        <!-- Hamburger (mobile only) -->
+        <button
+          class="mob-menu-btn"
+          id="mob-menu-btn"
+          onclick="openSidebar()"
+          aria-label="Menu"
+        >
+          <span></span><span></span><span></span>
+        </button>
         <div class="tb-title" id="topbar-title">Trang chủ</div>
         <div class="tb-acts">
           <div class="dpill">
             🎯 Hôm nay
             <div class="dpb">
-              <div class="dpf" id="daily-bar" style="width: 65%"></div>
+              <div class="dpf" id="daily-bar" style="width: 0%"></div>
             </div>
             <span
               id="daily-txt"
               style="font-size: 0.78rem; color: var(--b600); font-weight: 600"
-              >13/20</span
+              >0/20</span
             >
           </div>
-          <button class="btn p" onclick="openAddWord()">➕ Thêm từ</button>
-          <button class="btn" onclick="openCreateFolder()">
-            📁 Tạo thư mục
+          <!-- Desktop buttons -->
+          <button class="btn p tb-desk" onclick="openAddWord()">
+            <svg
+              width="15"
+              height="15"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <line x1="12" y1="5" x2="12" y2="19" />
+              <line x1="5" y1="12" x2="19" y2="12" />
+            </svg>
+            <span class="tb-label">Thêm từ</span>
+          </button>
+          <button class="btn tb-desk" onclick="openCreateFolder()">
+            <svg
+              width="15"
+              height="15"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path
+                d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"
+              />
+            </svg>
+            <span class="tb-label">Tạo thư mục</span>
+          </button>
+          <!-- Mobile FAB group -->
+          <button
+            class="btn p mob-fab"
+            onclick="openAddWord()"
+            title="Thêm từ"
+            style="display: none"
+          >
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <line x1="12" y1="5" x2="12" y2="19" />
+              <line x1="5" y1="12" x2="19" y2="12" />
+            </svg>
+          </button>
+          <button
+            class="btn mob-fab"
+            onclick="openCreateFolder()"
+            title="Tạo thư mục"
+            style="display: none"
+          >
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path
+                d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"
+              />
+            </svg>
           </button>
         </div>
       </header>
@@ -2949,7 +3507,23 @@
           <div class="sgrid">
             <div class="sc">
               <div class="sct">
-                <div class="sci ib">📚</div>
+                <div class="sci ib">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="M4 19.5A2.5 2.5 0 016.5 17H20" />
+                    <path
+                      d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"
+                    />
+                  </svg>
+                </div>
                 <div class="scl">Tổng từ vựng</div>
               </div>
               <div class="scv" id="s-total">0</div>
@@ -2957,7 +3531,21 @@
             </div>
             <div class="sc">
               <div class="sct">
-                <div class="sci ig">✅</div>
+                <div class="sci ig">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <circle cx="12" cy="12" r="10" />
+                    <path d="M9 12l2 2 4-4" />
+                  </svg>
+                </div>
                 <div class="scl">Đã thuộc</div>
               </div>
               <div class="scv" id="s-m">0</div>
@@ -2965,7 +3553,21 @@
             </div>
             <div class="sc">
               <div class="sct">
-                <div class="sci ia">⏳</div>
+                <div class="sci ia">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <circle cx="12" cy="12" r="10" />
+                    <polyline points="12 6 12 12 16 14" />
+                  </svg>
+                </div>
                 <div class="scl">Đang ôn</div>
               </div>
               <div class="scv" id="s-l">0</div>
@@ -2973,7 +3575,22 @@
             </div>
             <div class="sc">
               <div class="sct">
-                <div class="sci iv">🆕</div>
+                <div class="sci iv">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <circle cx="12" cy="12" r="10" />
+                    <line x1="12" y1="8" x2="12" y2="16" />
+                    <line x1="8" y1="12" x2="16" y2="12" />
+                  </svg>
+                </div>
                 <div class="scl">Từ mới</div>
               </div>
               <div class="scv" id="s-n">0</div>
@@ -2998,7 +3615,22 @@
                 class="qc"
                 onclick="nav('flashcards', document.querySelectorAll('.ni')[3])"
               >
-                <div class="qci">🃏</div>
+                <div class="qci">
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <rect x="2" y="4" width="20" height="14" rx="3" />
+                    <line x1="8" y1="4" x2="8" y2="18" />
+                    <line x1="16" y1="4" x2="16" y2="18" />
+                  </svg>
+                </div>
                 <div class="qct">Thẻ ghi nhớ</div>
                 <div class="qcs">Ôn lại từ hôm nay</div>
               </div>
@@ -3006,7 +3638,21 @@
                 class="qc"
                 onclick="nav('quiz', document.querySelectorAll('.ni')[4])"
               >
-                <div class="qci">✅</div>
+                <div class="qci">
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <circle cx="12" cy="12" r="10" />
+                    <path d="M9 12l2 2 4-4" />
+                  </svg>
+                </div>
                 <div class="qct">Kiểm tra nhanh</div>
                 <div class="qcs">Câu hỏi trắc nghiệm</div>
               </div>
@@ -3014,7 +3660,22 @@
                 class="qc"
                 onclick="nav('spelling', document.querySelectorAll('.ni')[5])"
               >
-                <div class="qci">🔤</div>
+                <div class="qci">
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <polyline points="4 7 4 4 20 4 20 7" />
+                    <line x1="9" y1="20" x2="15" y2="20" />
+                    <line x1="12" y1="4" x2="12" y2="20" />
+                  </svg>
+                </div>
                 <div class="qct">Chính tả</div>
                 <div class="qcs">Nghe và gõ lại từ</div>
               </div>
@@ -3022,7 +3683,20 @@
                 class="qc"
                 onclick="nav('speed', document.querySelectorAll('.ni')[6])"
               >
-                <div class="qci">⚡</div>
+                <div class="qci">
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+                  </svg>
+                </div>
                 <div class="qct">Speed Round</div>
                 <div class="qcs">60 giây nhanh nhất</div>
               </div>
@@ -3030,7 +3704,23 @@
                 class="qc"
                 onclick="nav('dictation', document.querySelectorAll('.ni')[7])"
               >
-                <div class="qci">🎧</div>
+                <div class="qci">
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="M3 18v-6a9 9 0 0118 0v6" />
+                    <path
+                      d="M21 19a2 2 0 01-2 2h-1a2 2 0 01-2-2v-3a2 2 0 012-2h3zM3 19a2 2 0 002 2h1a2 2 0 002-2v-3a2 2 0 00-2-2H3z"
+                    />
+                  </svg>
+                </div>
                 <div class="qct">Luyện nghe</div>
                 <div class="qcs">Dictation toàn bộ từ</div>
               </div>
@@ -3038,7 +3728,21 @@
                 class="qc"
                 onclick="nav('ielts', document.querySelectorAll('.ni')[9])"
               >
-                <div class="qci">🏫</div>
+                <div class="qci">
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="M2 20h20M4 20V10l8-7 8 7v10" />
+                    <path d="M9 20v-5h6v5" />
+                  </svg>
+                </div>
                 <div class="qct">IELTS Lab AI</div>
                 <div class="qcs">Reading, Writing, Listening</div>
               </div>
@@ -3048,13 +3752,39 @@
           <div class="two">
             <div class="card">
               <div class="ctitle">
-                <span class="cti">📈</span>Kỹ năng theo thư mục
+                <span class="cti"
+                  ><svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
+                    <polyline points="17 6 23 6 23 12" /></svg></span
+                >Kỹ năng theo thư mục
               </div>
               <div class="sblist" id="dash-bars"></div>
             </div>
             <div class="card">
               <div class="ctitle">
-                <span class="cti">🕐</span>Hoạt động gần đây
+                <span class="cti"
+                  ><svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <circle cx="12" cy="12" r="10" />
+                    <polyline points="12 6 12 12 16 14" /></svg></span
+                >Hoạt động gần đây
               </div>
               <div class="alist" id="act-list">
                 <div class="aitem">
@@ -3307,7 +4037,21 @@
           </div>
           <div class="card">
             <div class="ctitle">
-              <span class="cti">📂</span>Chọn thư mục học
+              <span class="cti"
+                ><svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path
+                    d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"
+                  /></svg></span
+              >Chọn thư mục học
             </div>
             <div
               style="display: flex; flex-wrap: wrap; gap: 7px"
@@ -3670,7 +4414,22 @@
               "
             >
               <div class="ctitle" style="margin-bottom: 0">
-                <span class="cti">🗓️</span>Lịch học tuần này
+                <span class="cti"
+                  ><svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <rect x="3" y="4" width="18" height="18" rx="2" />
+                    <line x1="16" y1="2" x2="16" y2="6" />
+                    <line x1="8" y1="2" x2="8" y2="6" />
+                    <line x1="3" y1="10" x2="21" y2="10" /></svg></span
+                >Lịch học tuần này
               </div>
               <div
                 style="
@@ -3712,7 +4471,23 @@
           <div class="sgrid" style="margin-bottom: 22px">
             <div class="sc">
               <div class="sct">
-                <div class="sci ib">🗓️</div>
+                <div class="sci ib">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                    <line x1="16" y1="2" x2="16" y2="6" />
+                    <line x1="8" y1="2" x2="8" y2="6" />
+                    <line x1="3" y1="10" x2="21" y2="10" />
+                  </svg>
+                </div>
                 <div class="scl">Ngày liên tiếp</div>
               </div>
               <div class="scv" id="pg-streak">0</div>
@@ -3720,7 +4495,24 @@
             </div>
             <div class="sc">
               <div class="sct">
-                <div class="sci" style="background: #f0fdf4">📅</div>
+                <div class="sci" style="background: #f0fdf4">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <rect x="3" y="4" width="18" height="18" rx="2" />
+                    <line x1="16" y1="2" x2="16" y2="6" />
+                    <line x1="8" y1="2" x2="8" y2="6" />
+                    <line x1="3" y1="10" x2="21" y2="10" />
+                    <path d="M8 14h.01M12 14h.01M16 14h.01" />
+                  </svg>
+                </div>
                 <div class="scl">Tổng ngày đã học</div>
               </div>
               <div class="scv" id="pg-total-days">0</div>
@@ -3728,7 +4520,21 @@
             </div>
             <div class="sc">
               <div class="sct">
-                <div class="sci ig">⏱️</div>
+                <div class="sci ig">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <circle cx="12" cy="12" r="10" />
+                    <polyline points="12 6 12 12 16 14" />
+                  </svg>
+                </div>
                 <div class="scl">Tuần này</div>
               </div>
               <div class="scv" id="pg-week-days">0</div>
@@ -3736,7 +4542,22 @@
             </div>
             <div class="sc">
               <div class="sct">
-                <div class="sci iv">🎯</div>
+                <div class="sci iv">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <circle cx="12" cy="12" r="10" />
+                    <circle cx="12" cy="12" r="6" />
+                    <circle cx="12" cy="12" r="2" />
+                  </svg>
+                </div>
                 <div class="scl">Tỉ lệ chính xác</div>
               </div>
               <div class="scv" id="pg-acc">—</div>
@@ -3746,7 +4567,22 @@
           <div class="two">
             <div class="card">
               <div class="ctitle">
-                <span class="cti">📆</span>Lịch học 30 ngày gần nhất
+                <span class="cti"
+                  ><svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <rect x="3" y="4" width="18" height="18" rx="2" />
+                    <line x1="16" y1="2" x2="16" y2="6" />
+                    <line x1="8" y1="2" x2="8" y2="6" />
+                    <line x1="3" y1="10" x2="21" y2="10" /></svg></span
+                >Lịch học 30 ngày gần nhất
               </div>
               <div id="heatmap-container" style="margin-bottom: 14px">
                 <div
@@ -3816,17 +4652,57 @@
                 </div>
               </div>
               <div class="ctitle" style="margin-top: 8px">
-                <span class="cti">📈</span>Tiến độ theo thư mục
+                <span class="cti"
+                  ><svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
+                    <polyline points="17 6 23 6 23 12" /></svg></span
+                >Tiến độ theo thư mục
               </div>
               <div class="sblist" id="prog-bars"></div>
             </div>
             <div class="card">
               <div class="ctitle">
-                <span class="cti">📊</span>Phân tích từ vựng
+                <span class="cti"
+                  ><svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <line x1="18" y1="20" x2="18" y2="10" />
+                    <line x1="12" y1="20" x2="12" y2="4" />
+                    <line x1="6" y1="20" x2="6" y2="14" /></svg></span
+                >Phân tích từ vựng
               </div>
               <div id="vocab-analysis" style="margin-bottom: 16px"></div>
               <div class="ctitle" style="margin-top: 4px">
-                <span class="cti">🏅</span>Thành tích
+                <span class="cti"
+                  ><svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <circle cx="12" cy="8" r="6" />
+                    <path d="M8.21 13.89L7 23l5-3 5 3-1.21-9.12" /></svg></span
+                >Thành tích
               </div>
               <div style="display: flex; flex-direction: column; gap: 9px">
                 <div
@@ -4585,6 +5461,9 @@ Leverage		Đòn bẩy; tận dụng lợi thế</pre
         if (name === "progress") renderProgress();
         if (name === "dashboard") updateStats();
         if (name === "learn") renderLearnTopics();
+        // Sync bottom nav & scroll top
+        syncBottomNav(name);
+        window.scrollTo({ top: 0, behavior: "smooth" });
       }
 
       // ═══════════════════════════════════════════════════
@@ -8071,9 +8950,52 @@ Leverage		Đòn bẩy; tận dụng lợi thế</pre
       renderTopics();
       updateSettingsKeyStatus();
 
-      // Handle Escape key to close modals
+      // ═══════════════════════════════════════════════════
+      // MOBILE SIDEBAR & BOTTOM NAV
+      // ═══════════════════════════════════════════════════
+      function openSidebar() {
+        document.querySelector(".sidebar").classList.add("open");
+        document.getElementById("sb-overlay").classList.add("show");
+        document.getElementById("mob-menu-btn").classList.add("open");
+        document.body.style.overflow = "hidden";
+      }
+      function closeSidebar() {
+        document.querySelector(".sidebar").classList.remove("open");
+        document.getElementById("sb-overlay").classList.remove("show");
+        const btn = document.getElementById("mob-menu-btn");
+        if (btn) btn.classList.remove("open");
+        document.body.style.overflow = "";
+      }
+
+      // Sync bottom nav active state
+      const BN_MAP = {
+        dashboard: "bn-dashboard",
+        topics: "bn-topics",
+        learn: "bn-learn",
+        flashcards: "bn-learn",
+        quiz: "bn-learn",
+        spelling: "bn-learn",
+        speed: "bn-learn",
+        dictation: "bn-learn",
+        ielts: "bn-learn",
+        progress: "bn-progress",
+        settings: "bn-more",
+      };
+      function syncBottomNav(section) {
+        document
+          .querySelectorAll(".bn-item")
+          .forEach((b) => b.classList.remove("active"));
+        const id = BN_MAP[section];
+        if (id) {
+          const el = document.getElementById(id);
+          if (el) el.classList.add("active");
+        }
+      }
+
+      // Close sidebar on Escape
       document.addEventListener("keydown", (e) => {
         if (e.key === "Escape") {
+          closeSidebar();
           document
             .querySelectorAll(".mo.show")
             .forEach((m) => m.classList.remove("show"));
